@@ -1,15 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { 
-  Provider as PaperProvider, Appbar, FAB
+  Provider as PaperProvider, Appbar, FAB, Searchbar
 } from 'react-native-paper';
 import { withNavigation } from 'react-navigation';
 
 import EventList from '../components/EventList';
 
-class Event extends React.Component {
+class SearchGroup extends React.Component {
     static navigationOptions = { header: null }
-
+    static title = 'Search'
   _onSearch = () => console.log('Searching');
 
   _onMore = () => console.log('Shown more');
@@ -23,11 +23,14 @@ class Event extends React.Component {
         <View style={styles.container}>
             <View>
                 <Appbar.Header>
-                    <Appbar.Content
-                    title="Events"
+                    <Searchbar
+                        placeholder="Search"
+                        // onChangeText={query => this.setState({ secondQuery: query })}
+                        // value={this.state.secondQuery}
+                        onIconPress={() => this.props.navigation.goBack()}
+                        icon={{ source: 'arrow-back', direction: 'auto' }}
+                        style={styles.searchbar}
                     />
-                    <Appbar.Action icon="search" onPress={this._onSearch} />
-                    <Appbar.Action icon="more-vert" onPress={this._onMore} />
                 </Appbar.Header>
             </View>
             <View style={styles.container}>
@@ -69,4 +72,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withNavigation(Event);
+export default withNavigation(SearchGroup);

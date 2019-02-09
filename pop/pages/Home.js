@@ -8,8 +8,12 @@ import { withNavigation } from 'react-navigation';
 import GroupList from '../components/GroupList';
 
 class Home extends React.Component {
-
-  _onSearch = () => console.log('Searching');
+    static navigationOptions = { header: null }
+  _onSearch = () => {
+      this.props.navigation.push('SearchGroup',{
+          uid: this.props.navigation.getParam('uid','EMPTY')
+      })
+  }
 
   _onMore = () => console.log('Shown more');
 

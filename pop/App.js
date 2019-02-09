@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Event from './pages/Event'
 import Login from './pages/Login'
 import Post from './pages/Post'
+import SearchGroup from './pages/SearchGroup'
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 const RootStack = createStackNavigator(
@@ -14,9 +15,11 @@ const RootStack = createStackNavigator(
     Home: Home,
     Event: Event,
     Login: Login,
-    Post: Post
+    Post: Post,
+    SearchGroup: SearchGroup
   },
   {
+    // headerMode: 'screen',
     initialRouteName: 'Login',
   }
 );

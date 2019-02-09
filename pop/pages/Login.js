@@ -49,6 +49,7 @@ async function registerForPushNotificationsAsync(uid) {
 }
 
 class Login extends React.Component{
+  static navigationOptions = { header: null }
   static title = 'Login';
 
   state = {

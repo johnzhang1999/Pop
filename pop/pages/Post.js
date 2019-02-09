@@ -12,6 +12,7 @@ import { Button, TextInput, HelperText, withTheme, Paragraph } from 'react-nativ
 import { withNavigation } from 'react-navigation';
 
 class Post extends React.Component{
+  static navigationOptions = { header: null }
   static title = 'Post';
 
   state = {
