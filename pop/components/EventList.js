@@ -11,12 +11,12 @@ import {
 } from 'react-native-paper';
 import { withNavigation } from 'react-navigation';
 
-class GroupList extends React.Component {
+export default class EventList extends React.Component {
 
   state = {
     loading: false,
     error: false, 
-    groupList: [],
+    eventList: [],
     infoList: [],
     uid: 'eea7aa99-2e43-4d41-89df-5b320c35da3e',
   }
@@ -44,28 +44,28 @@ class GroupList extends React.Component {
   }
 
   fetchData = async () => {
-    this.state.groupList = []
+    this.state.eventList = []
     this.state.infoList = []
     try {
-      const response = await fetch('http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/getGroupList/', {
+      const response = await fetch('http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/getEventList/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: 'uid=' + this.state.uid
+        body: 'gid=' + this.state.gid
       })
       const gList = await response.json()
-      this.setState({groupList: gList.groupList})
+      this.setState({eventList: gList.eventList})
 
-      for (g in this.state.groupList) {
+      for (g in this.state.eventList) {
 
         try {
-          const response = await fetch('http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/getGroupInfo/', {
+          const response = await fetch('http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/getEventInfo/', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: 'gid=' + this.state.groupList[g]
+            body: 'eid=' + this.state.eventList[g]
           }
           )
           const info = await response.json()
@@ -91,12 +91,7 @@ class GroupList extends React.Component {
     typeBtn = type === "private" ? "lock" : "accessibility"
     pplCount = memberList.length
     return (
-      <Card style={styles.card} onPress={() => {
-        console.log(this.props.navigation)
-        this.props.navigation.navigate('Event', {
-          gid: gid,
-        });
-      }}>
+      <Card style={styles.card}>
       <Card.Title title={name} />
       <Card.Actions>
         <Button disabled icon={typeBtn} onPress={() => {}} style={styles.button}>
@@ -122,7 +117,7 @@ class GroupList extends React.Component {
 
   render() {
 
-    const {loading, error, groupList, infoList, uid} = this.state
+    const {loading, error, eventList, infoList, uid} = this.state
 
 
     if (loading) {
@@ -178,5 +173,3 @@ const styles = StyleSheet.create({
     margin: 0
   }
 });
-
-export default withNavigation(GroupList);
