@@ -11,13 +11,43 @@ import {
 } from 'react-native';
 import { Button, TextInput, HelperText, withTheme, Paragraph } from 'react-native-paper';
 import { withNavigation } from 'react-navigation';
+import { Permissions, Notifications } from 'expo';
 
+const PUSH_ENDPOINT = 'http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/updateToken/';
 
+async function registerForPushNotificationsAsync(uid) {
+  const { status: existingStatus } = await Permissions.getAsync(
+    Permissions.NOTIFICATIONS
+  );
+  let finalStatus = existingStatus;
 
-//  State = {
-//   name,
-//   pwd,
-// };
+  // only ask if permissions have not already been determined, because
+  // iOS won't necessarily prompt the user a second time.
+  if (existingStatus !== 'granted') {
+    // Android remote notification permissions are granted during the app
+    // install, so this will only ask on iOS
+    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    finalStatus = status;
+  }
+
+  // Stop here if the user did not grant permissions
+  if (finalStatus !== 'granted') {
+    return;
+  }
+
+  // Get the token that uniquely identifies this device
+  let token = await Notifications.getExpoPushTokenAsync();
+  console.log(uid)
+  console.log(token)
+  // POST the token to your backend server from where you can retrieve it to send push notifications.
+  return fetch(PUSH_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: 'uid=' + uid + '&token=' + token,
+  });
+}
 
 class Login extends React.Component{
   static title = 'Login';
@@ -68,6 +98,7 @@ class Login extends React.Component{
       this.setState({
         uid: resUid.uid
       })
+      registerForPushNotificationsAsync(this.state.uid)
       this.props.navigation.navigate('Home',{
         uid: this.state.uid
       })
