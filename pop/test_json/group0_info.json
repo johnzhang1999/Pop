@@ -1,0 +1,10 @@
+{
+    "data": [{
+        "gid": 0, 
+        "name": "Group1", 
+        "type": "Private", 
+        "memberList": [], 
+        "owner": "Hefei", 
+        "unconfirmed": "NO"
+    }]
+}

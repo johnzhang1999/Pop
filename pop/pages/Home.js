@@ -1,16 +1,15 @@
 import React from 'react';
-import { AppRegistry, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { 
   Provider as PaperProvider, 
 } from 'react-native-paper';
-import Home from './pages/Home';
 
-export default class App extends React.Component {
+import GroupList from '../components/GroupList';
+
+export default class Home extends React.Component {
   render() {
     return (
-      <PaperProvider> 
-        <Home />
-      </PaperProvider>
+        <GroupList />
     );
   }
 }
@@ -23,5 +22,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
-AppRegistry.registerComponent('main', () => Main);
