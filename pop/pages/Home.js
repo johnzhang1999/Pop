@@ -1,15 +1,49 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { 
-  Provider as PaperProvider, 
+  Provider as PaperProvider, Appbar, FAB
 } from 'react-native-paper';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 import GroupList from '../components/GroupList';
 
 export default class Home extends React.Component {
+
+  _onSearch = () => console.log('Searching');
+
+  _onMore = () => console.log('Shown more');
+
   render() {
     return (
-        <GroupList />
+        <View style={styles.container}>
+            <View>
+                <Appbar.Header>
+                    <Appbar.Content
+                    title="Groups"
+                    />
+                    <Appbar.Action icon="search" onPress={this._onSearch} />
+                    <Appbar.Action icon="more-vert" onPress={this._onMore} />
+                </Appbar.Header>
+            </View>
+            <View style={styles.container}>
+                <GroupList />
+            </View>
+            <View>
+            <SafeAreaView>
+                <View>
+                    <FAB
+                    icon="add"
+                    label="Add Group"
+                    style={styles.fab}
+                    // onPress={() =>
+                    //     this.setState(state => ({ visible: !state.visible }))
+                    // }
+                    />
+                </View>
+                </SafeAreaView>
+            </View>
+        </View> 
+
     );
   }
 }
@@ -17,8 +51,11 @@ export default class Home extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  },
+  fab: {
+    alignSelf: 'center',
+    position: 'absolute',
+    bottom: 10,
+    margin: 16,
   },
 });
