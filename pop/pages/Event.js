@@ -7,20 +7,22 @@ import { withNavigation } from 'react-navigation';
 
 import GroupList from '../components/GroupList';
 
-class Home extends React.Component {
+class Event extends React.Component {
 
   _onSearch = () => console.log('Searching');
 
   _onMore = () => console.log('Shown more');
 
   render() {
+    const { navigation } = this.props;
+    const gid = navigation.getParam('gid','EMPTY')
+    console.log(gid)
     return (
-        <PaperProvider> 
         <View style={styles.container}>
             <View>
                 <Appbar.Header>
                     <Appbar.Content
-                    title="Groups"
+                    title="Events"
                     />
                     <Appbar.Action icon="search" onPress={this._onSearch} />
                     <Appbar.Action icon="more-vert" onPress={this._onMore} />
@@ -34,7 +36,7 @@ class Home extends React.Component {
                 <View>
                     <FAB
                     icon="add"
-                    label="Add Group"
+                    label="Add Event"
                     style={styles.fab}
                     // onPress={() =>
                     //     this.setState(state => ({ visible: !state.visible }))
@@ -44,7 +46,7 @@ class Home extends React.Component {
                 </SafeAreaView>
             </View>
         </View> 
-        </PaperProvider>
+
     );
   }
 }
@@ -61,4 +63,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withNavigation(Home);
+export default withNavigation(Event);
