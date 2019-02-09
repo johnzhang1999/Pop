@@ -1,4 +1,3 @@
-/* @flow */
 
 import * as React from 'react';
 import {
@@ -7,29 +6,69 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   type Theme,
-} from 'react-native';
-import { TextInput, HelperText, withTheme } from 'react-native-paper';
+  Container,
 
-type Props = {
-  theme: Theme,
-};
+} from 'react-native';
+import { Button, TextInput, HelperText, withTheme } from 'react-native-paper';
+
 
 type State = {
-  text: string,
   name: string,
-  outlinedText: string,
+  pwd: string,
 };
 
-class TextInputExample extends React.Component<Props, State> {
-  static title = 'TextInput';
+export default class TextInputExample extends React.Component<State>{
+  static title = 'Login';
 
   state = {
-    text: '',
+    loading: false
+    error: false
     name: '',
-    outlinedText: '',
+    pwd: '',
   };
 
-return (
+  fetchData = async () => {
+    this.state.groupList = []
+    this.state.infoList = []
+    try {
+      const response = await fetch('http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/register/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'name=' + this.state.name + '&pwd=' + this.state.pwd
+      })
+    } catch (e) {
+      this.setState({loading: false, error: true})
+    }
+  }
+
+  getData = async () => {
+    this.state.groupList = []
+    this.state.infoList = []
+    try {
+      const response = await fetch('http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'name=' + this.state.name + '&pwd=' + this.state.pwd
+      })
+    } catch (e) {
+      this.setState({loading: false, error: true})
+    }
+  }
+
+  _isUsernameValid = () => /^[a-zA-Z]*$/.test(this.state.name);
+
+  render() {
+    const {
+      theme: {
+        colors: { background },
+      },
+    } = this.props;
+
+    return (
       <KeyboardAvoidingView
         style={styles.wrapper}
         behavior="padding"
@@ -43,23 +82,29 @@ return (
           <TextInput
             mode="outlined"
             style={styles.inputContainerStyle}
-            label="username"
+            label="Username, only letters"
             placeholder="Username"
-            value={this.state.username}
-            onChangeText={outlinedText => this.setState({ outlinedText })}
+            error={!this._isUsernameValid()}
+            value={this.state.name}
+            onChangeText={name => this.setState({ name })}
           />
           <TextInput
             secureTextEntry={true}
             mode="outlined"
             style={styles.inputContainerStyle}
-            label="password"
-            value={this.state.password}
-            onChangeText={outlinedText => this.setState({ outlinedText })}
+            label="Password"
+             placeholder="Password"
+            value={this.state.pwd}
+            onChangeText={pwd => this.setState({ pwd })}
           />
-          <Button mode="contained" color = "blue" onPress={() => console.log('Pressed')} style ={styles.button1}>
+          <Button mode="contained" color = "blue" onPress={() => componentWillMount = async () => {
+            this.getData()
+          }} style ={styles.button1}>
               Sign in
           </Button>
-          <Button mode="contained" color = "green" onPress={() => console.log('Pressed')} style = {styles.button2}>
+          <Button mode="contained" color = "green" onPress={() => componentWillMount = async () => {
+            this.fetchData()
+          }} style = {styles.button2}>
               Sign Up
           </Button>
         </ScrollView>
@@ -93,4 +138,3 @@ const styles = StyleSheet.create({
   }
 });
 
-export default withTheme(TextInputExample);
