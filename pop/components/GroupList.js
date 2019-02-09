@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, ScrollView, RefreshControl,StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, ScrollView, RefreshControl,StyleSheet, Text, View, Chip } from 'react-native';
 import { 
   Provider as PaperProvider, 
   Card, 
@@ -51,13 +51,13 @@ export default class GroupList extends React.Component {
         body: 'uid=' + this.state.uid
       })
       const gList = await response.json()
-
+      // console.log(gList)
       this.setState({groupList: gList.groupList})
+      // this.state.groupList = gList.groupList
       // console.log(this.state.groupList)
 
       for (g in this.state.groupList) {
-        // console.log(g)
-        // console.log(this.state.groupList[g])
+
         try {
           const response = await fetch('http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/getGroupInfo/', {
             method: 'POST',
@@ -71,20 +71,22 @@ export default class GroupList extends React.Component {
           this.setState({
             infoList: [...this.state.infoList, info]  
           })
+          // console.log(this.state.groupList)
+          // this.state.infoList.push(info)
+          // console.log(info)
 
-          console.log(this.state.infoList)
 
         } catch (e) {
           this.setState({loading: false, error: true})
         }
       }
-
+      // console.log(this.state.infoList)
     } catch (e) {
       this.setState({loading: false, error: true})
     }
   }
 
-  renderPost = ({gid, name, type, memberList, owner, unconfirmed}) => {
+  renderPost = ({gid, memberList, name, owner, type, unconfirmed}) => {
     return (
       <Card>
       <Card.Title title={name} />
@@ -92,12 +94,11 @@ export default class GroupList extends React.Component {
         <Title>{name}</Title>
       </Card.Content>
       <Card.Actions>
-        <Chip>{type} group</Chip>
-        <Chip>{unconfirmed} unconfirmed</Chip>
+
       </Card.Actions>
     </Card>
     )
-  }
+  } 
 
   // _onRefresh = () => {
   //   this.setState({loading: true});
@@ -109,6 +110,7 @@ export default class GroupList extends React.Component {
   render() {
 
     const {loading, error, groupList, infoList, uid} = this.state
+
 
     if (loading) {
       return (
@@ -128,17 +130,37 @@ export default class GroupList extends React.Component {
       )
     }
 
+    console.log(this.state)  
     return (
 
       <ScrollView
       refreshControl={
         <RefreshControl
-          refreshing={this.state.loading}
+          refreshing={this.state.loading} 
           // onRefresh={this._onRefresh}
         />
       }>
         {infoList.map(this.renderPost)} 
-        {/* <Text>Hello</Text> */}
+        {/* {this.renderPost({
+          gid: "someting",
+          memberList: [],
+          name: "hi",
+          owner: "someone",
+          type: "private",
+          unconfirmed: 6
+        })} */}
+        <Text>Hello</Text>
+        {/* <Card>
+      <Card.Title title="name" /> 
+      <Card.Content>
+        <Title>"name"</Title>
+      </Card.Content>
+      <Card.Actions>
+      <Button icon="add-a-photo" mode="contained" >
+    Press me
+  </Button>
+      </Card.Actions>
+    </Card> */}
       </ScrollView>
 
     );
