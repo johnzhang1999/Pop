@@ -18,30 +18,31 @@ class GroupList extends React.Component {
     error: false, 
     groupList: [],
     infoList: [],
-    uid: 'eea7aa99-2e43-4d41-89df-5b320c35da3e',
+    // uid: 'eea7aa99-2e43-4d41-89df-5b320c35da3e',
   }
 
-  loadUid = async () => {
-    try {
-      const uid = await AsyncStorage.getItem('uid')
 
-      if (uid !== null) {
-        this.setState({uid})
-      }
-    } catch (e) {
-      console.error('Failed to load uid.')
-    }
-  }
+  // loadUid = async () => {
+  //   try {
+  //     const uid = await AsyncStorage.getItem('uid')
 
-  saveUid = async (uid) => {
-    try {
-      await AsyncStorage.setItem('uid', uid)
+  //     if (uid !== null) {
+  //       this.setState({uid})
+  //     }
+  //   } catch (e) {
+  //     console.error('Failed to load uid.')
+  //   }
+  // }
 
-      this.setState({uid})
-    } catch (e) {
-      console.error('Failed to save uid.')
-    }
-  }
+  // saveUid = async (uid) => {
+  //   try {
+  //     await AsyncStorage.setItem('uid', uid)
+
+  //     this.setState({uid})
+  //   } catch (e) {
+  //     console.error('Failed to save uid.')
+  //   }
+  // }
 
   fetchData = async () => {
     this.state.groupList = []
@@ -52,7 +53,7 @@ class GroupList extends React.Component {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: 'uid=' + this.state.uid
+        body: 'uid=' + this.props.uid
       })
       const gList = await response.json()
       this.setState({groupList: gList.groupList})
@@ -92,7 +93,7 @@ class GroupList extends React.Component {
     pplCount = memberList.length
     return (
       <Card style={styles.card} onPress={() => {
-        console.log(this.props.navigation)
+        // console.log(this.props.navigation)
         this.props.navigation.navigate('Event', {
           gid: gid,
         });
@@ -122,7 +123,7 @@ class GroupList extends React.Component {
 
   render() {
 
-    const {loading, error, groupList, infoList, uid} = this.state
+    const {loading, error, groupList, infoList} = this.state
 
 
     if (loading) {

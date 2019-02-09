@@ -5,31 +5,36 @@ import {
   View,
   ScrollView,
   KeyboardAvoidingView,
-  type Theme,
+  Theme,
   Container,
 
 } from 'react-native';
-import { Button, TextInput, HelperText, withTheme } from 'react-native-paper';
+import { Button, TextInput, HelperText, withTheme, Paragraph } from 'react-native-paper';
+import { withNavigation } from 'react-navigation';
 
 
-type State = {
-  name: string,
-  pwd: string,
-};
 
-export default class TextInputExample extends React.Component<State>{
+//  State = {
+//   name,
+//   pwd,
+// };
+
+class Login extends React.Component{
   static title = 'Login';
 
   state = {
-    loading: false
-    error: false
+    loading: false,
+    error: false,
     name: '',
     pwd: '',
+    uid: '',
   };
 
-  fetchData = async () => {
-    this.state.groupList = []
-    this.state.infoList = []
+  // _openDialog = () => this.setState({ visible: true });
+  // _closeDialog = () => this.setState({ visible: false });
+
+  register = async () => {
+
     try {
       const response = await fetch('http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/register/', {
         method: 'POST',
@@ -38,14 +43,18 @@ export default class TextInputExample extends React.Component<State>{
         },
         body: 'name=' + this.state.name + '&pwd=' + this.state.pwd
       })
+      const resUid = await response.json()
+      console.log(resUid)
+      this.setState({
+        uid: resUid.uid
+      })
     } catch (e) {
       this.setState({loading: false, error: true})
     }
   }
 
-  getData = async () => {
-    this.state.groupList = []
-    this.state.infoList = []
+  login = async () => {
+
     try {
       const response = await fetch('http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/login/', {
         method: 'POST',
@@ -53,6 +62,14 @@ export default class TextInputExample extends React.Component<State>{
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: 'name=' + this.state.name + '&pwd=' + this.state.pwd
+      })
+      const resUid = await response.json()
+      console.log(resUid)
+      this.setState({
+        uid: resUid.uid
+      })
+      this.props.navigation.navigate('Home',{
+        uid: this.state.uid
       })
     } catch (e) {
       this.setState({loading: false, error: true})
@@ -62,20 +79,21 @@ export default class TextInputExample extends React.Component<State>{
   _isUsernameValid = () => /^[a-zA-Z]*$/.test(this.state.name);
 
   render() {
-    const {
-      theme: {
-        colors: { background },
-      },
-    } = this.props;
+    // const {
+    //   theme: {
+    //     colors: { background },
+    //   },
+    // } = this.props;
 
     return (
+      <View style={styles.container}>
       <KeyboardAvoidingView
         style={styles.wrapper}
         behavior="padding"
         keyboardVerticalOffset={80}
       >
         <ScrollView
-          style={[styles.container, { backgroundColor: background }]}
+          style={[styles.container]}
           keyboardShouldPersistTaps={'always'}
           removeClippedSubviews={false}
         >
@@ -97,18 +115,19 @@ export default class TextInputExample extends React.Component<State>{
             value={this.state.pwd}
             onChangeText={pwd => this.setState({ pwd })}
           />
-          <Button mode="contained" color = "blue" onPress={() => componentWillMount = async () => {
-            this.getData()
+          <Button mode="contained" color = "blue" onPress={() => {
+            this.login()
           }} style ={styles.button1}>
               Sign in
           </Button>
-          <Button mode="contained" color = "green" onPress={() => componentWillMount = async () => {
-            this.fetchData()
+          <Button mode="contained" color = "green" onPress={() => {
+            this.register()
           }} style = {styles.button2}>
               Sign Up
           </Button>
         </ScrollView>
       </KeyboardAvoidingView>
+      </View>
     );
   }
 }
@@ -138,3 +157,4 @@ const styles = StyleSheet.create({
   }
 });
 
+export default withNavigation(Login);

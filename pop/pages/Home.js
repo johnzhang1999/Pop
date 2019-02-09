@@ -14,6 +14,8 @@ class Home extends React.Component {
   _onMore = () => console.log('Shown more');
 
   render() {
+    const { navigation } = this.props;
+    const uid = navigation.getParam('uid','EMPTY')
     return (
         <PaperProvider> 
         <View style={styles.container}>
@@ -27,7 +29,7 @@ class Home extends React.Component {
                 </Appbar.Header>
             </View>
             <View style={styles.container}>
-                <GroupList />
+                <GroupList uid={uid}/>
             </View>
             <View>
             <SafeAreaView>

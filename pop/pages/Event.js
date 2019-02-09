@@ -5,7 +5,7 @@ import {
 } from 'react-native-paper';
 import { withNavigation } from 'react-navigation';
 
-import GroupList from '../components/GroupList';
+import EventList from '../components/EventList';
 
 class Event extends React.Component {
 
@@ -16,7 +16,7 @@ class Event extends React.Component {
   render() {
     const { navigation } = this.props;
     const gid = navigation.getParam('gid','EMPTY')
-    console.log(gid)
+    // console.log(gid)
     return (
         <View style={styles.container}>
             <View>
@@ -29,7 +29,7 @@ class Event extends React.Component {
                 </Appbar.Header>
             </View>
             <View style={styles.container}>
-                <GroupList />
+                <EventList gid={gid}/>
             </View>
             <View>
             <SafeAreaView>

@@ -17,8 +17,7 @@ export default class EventList extends React.Component {
     loading: false,
     error: false, 
     eventList: [],
-    infoList: [],
-    uid: 'eea7aa99-2e43-4d41-89df-5b320c35da3e',
+    infoList: [], 
   }
 
   loadUid = async () => {
@@ -46,16 +45,18 @@ export default class EventList extends React.Component {
   fetchData = async () => {
     this.state.eventList = []
     this.state.infoList = []
+    console.log(this.props.gid)
     try {
       const response = await fetch('http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/getEventList/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: 'gid=' + this.state.gid
+        body: 'gid=' + this.props.gid
       })
-      const gList = await response.json()
-      this.setState({eventList: gList.eventList})
+      const eList = await response.json()
+      this.setState({eventList: eList.eventList})
+      console.log(this.state.eventList)
 
       for (g in this.state.eventList) {
 
@@ -87,21 +88,19 @@ export default class EventList extends React.Component {
     this.fetchData()
   }
 
-  renderPost = ({gid, memberList, name, owner, type, unconfirmed}) => {
-    typeBtn = type === "private" ? "lock" : "accessibility"
-    pplCount = memberList.length
+  renderPost = ({loc, desc, eid, initTime, onwer, name}) => {
     return (
       <Card style={styles.card}>
       <Card.Title title={name} />
+      <Card.Content>
+      <Paragraph>{desc}</Paragraph>
+    </Card.Content>
       <Card.Actions>
-        <Button disabled icon={typeBtn} onPress={() => {}} style={styles.button}>
-              {type}
+        <Button disabled icon="place" onPress={() => {}} style={styles.button}>
+              {loc}
             </Button>
-        <Button disabled icon="announcement" onPress={() => {}} style={styles.button}>
-          {unconfirmed} 
-        </Button>
-        <Button disabled icon="people" onPress={() => {}} style={styles.button}>
-          {pplCount} 
+        <Button disabled icon="timelapse" onPress={() => {}} style={styles.button}>
+          {initTime} 
         </Button>
       </Card.Actions>
     </Card>
@@ -117,8 +116,8 @@ export default class EventList extends React.Component {
 
   render() {
 
-    const {loading, error, eventList, infoList, uid} = this.state
-
+    const {loading, error, eventList, infoList} = this.state
+    console.log(eventList)
 
     if (loading) {
       return (
