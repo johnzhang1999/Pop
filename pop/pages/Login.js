@@ -57,10 +57,8 @@ class Login extends React.Component{
     name: '',
     pwd: '',
     uid: '',
+    invalid: false,
   };
-
-  // _openDialog = () => this.setState({ visible: true });
-  // _closeDialog = () => this.setState({ visible: false });
 
   register = async () => {
 
@@ -75,10 +73,12 @@ class Login extends React.Component{
       const resUid = await response.json()
       console.log(resUid)
       this.setState({
-        uid: resUid.uid
+        uid: resUid.uid, 
+        invalid: false
       })
     } catch (e) {
       this.setState({loading: false, error: true})
+      this.setState({invalid: true})
     }
   }
 
@@ -103,18 +103,13 @@ class Login extends React.Component{
       })
     } catch (e) {
       this.setState({loading: false, error: true})
+      this.setState({invalid: true})
     }
   }
-
+  
   _isUsernameValid = () => /^[a-zA-Z]*$/.test(this.state.name);
-
   render() {
-    // const {
-    //   theme: {
-    //     colors: { background },
-    //   },
-    // } = this.props;
-
+    
     return (
       <View style={styles.container}>
       <KeyboardAvoidingView
@@ -134,17 +129,24 @@ class Login extends React.Component{
             placeholder="Username"
             error={!this._isUsernameValid()}
             value={this.state.name}
-            onChangeText={name => this.setState({ name })}
+            onChangeText={name => this.setState({name, invalid: false})}
+
           />
           <TextInput
             secureTextEntry={true}
             mode="outlined"
             style={styles.inputContainerStyle}
             label="Password"
-             placeholder="Password"
+            placeholder="Password"
             value={this.state.pwd}
-            onChangeText={pwd => this.setState({ pwd })}
+            onChangeText={pwd => this.setState({ pwd, invalid: false})}
           />
+          <HelperText
+            type="error"
+            visible={this.state.invalid}
+          >
+          Accound and Password do not match!
+          </HelperText>
           <Button mode="contained" color = "blue" onPress={() => {
             this.login()
           }} style ={styles.button1}>
