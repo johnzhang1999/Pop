@@ -30,7 +30,7 @@ class Event extends React.Component {
                 </Appbar.Header>
             </View>
             <View style={styles.container}>
-                <EventList gid={gid}/>
+                <EventList gid={gid} uid={uid}/>
             </View>
             <View>
             <SafeAreaView>

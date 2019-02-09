@@ -73,7 +73,7 @@ class Login extends React.Component{
       const resUid = await response.json()
       console.log(resUid)
       this.setState({
-        uid: resUid.uid, 
+        uid: resUid.uid,
         invalid: false
       })
     } catch (e) {
@@ -145,7 +145,7 @@ class Login extends React.Component{
             type="error"
             visible={this.state.invalid}
           >
-          Accound and Password do not match!
+          Account and Password do not match!
           </HelperText>
           <Button mode="contained" color = "blue" onPress={() => {
             this.login()

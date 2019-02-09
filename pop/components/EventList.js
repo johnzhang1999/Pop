@@ -7,7 +7,7 @@ import {
   Paragraph, 
   Button, 
   ActivityIndicator,
-  Chip
+  HelperText
 } from 'react-native-paper';
 import { withNavigation } from 'react-navigation';
 
@@ -18,29 +18,30 @@ export default class EventList extends React.Component {
     error: false, 
     eventList: [],
     infoList: [], 
+    invalid: false
   }
 
-  loadUid = async () => {
-    try {
-      const uid = await AsyncStorage.getItem('uid')
+//   loadUid = async () => {
+//     try {
+//       const uid = await AsyncStorage.getItem('uid')
 
-      if (uid !== null) {
-        this.setState({uid})
-      }
-    } catch (e) {
-      console.error('Failed to load uid.')
-    }
-  }
+//       if (uid !== null) {
+//         this.setState({uid})
+//       }
+//     } catch (e) {
+//       console.error('Failed to load uid.')
+//     }
+//   }
 
-  saveUid = async (uid) => {
-    try {
-      await AsyncStorage.setItem('uid', uid)
+//   saveUid = async (uid) => {
+//     try {
+//       await AsyncStorage.setItem('uid', uid)
 
-      this.setState({uid})
-    } catch (e) {
-      console.error('Failed to save uid.')
-    }
-  }
+//       this.setState({uid})
+//     } catch (e) {
+//       console.error('Failed to save uid.')
+//     }
+//   }
 
   fetchData = async () => {
     this.state.eventList = []
@@ -84,6 +85,26 @@ export default class EventList extends React.Component {
     }
   }
 
+  deletePost = async (uid, eid) => {
+      console.log(uid)
+      console.log(eid)
+    try {
+      const response = await fetch('http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/deleteEvent/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'uid=' + uid + '&eid=' + eid
+      })
+      const resStatus = await response.json()
+      console.log(resStatus)
+      this.fetchData()
+    } catch (e) {
+      this.setState({loading: false, error: true})
+      this.setState({invalid: true})
+    }
+  }
+
   componentWillMount = async () => {
     this.fetchData()
   }
@@ -102,9 +123,17 @@ export default class EventList extends React.Component {
         <Button disabled icon="timelapse" onPress={() => {}} style={styles.button}>
           {initTime} 
         </Button>
-        {/* <Button icon="timelapse" onPress={() => {}} style={styles.button}>
-          {initTime} 
-        </Button> */}
+        <Button icon="delete" onPress={() => {
+            this.deletePost(this.props.uid, eid)
+        }} style={styles.button}>
+          Del
+        </Button>
+        <HelperText
+            type="error"
+            visible={this.state.invalid}
+          >
+          You are not the owner of this event!
+          </HelperText>
       </Card.Actions>
     </Card>
     )
@@ -119,7 +148,7 @@ export default class EventList extends React.Component {
 
   render() {
 
-    const {loading, error, eventList, infoList} = this.state
+    const {loading, error, eventList, infoList, invalid} = this.state
     console.log(eventList)
 
     if (loading) {
