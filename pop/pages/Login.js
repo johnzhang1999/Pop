@@ -8,7 +8,7 @@ import {
   Container,
 
 } from 'react-native';
-import { Button, TextInput, HelperText, withTheme, Paragraph } from 'react-native-paper';
+import { Button, TextInput, HelperText, Appbar, Paragraph, Avatar } from 'react-native-paper';
 import { withNavigation } from 'react-navigation';
 import { Permissions, Notifications } from 'expo';
 
@@ -112,12 +112,23 @@ class Login extends React.Component{
   render() {
     
     return (
+      <View style={styles.container2}>
+
+      <View>
+                <Appbar.Header style={styles.header}>
+                    <Appbar.Content
+                    title="POP!"
+                    />
+                </Appbar.Header>
+            </View>
       <View style={styles.container}>
+
       <KeyboardAvoidingView
         style={styles.wrapper}
         behavior="padding"
         keyboardVerticalOffset={80}
-      >
+      > 
+
         <ScrollView
           style={[styles.container]}
           keyboardShouldPersistTaps={'always'}
@@ -161,11 +172,19 @@ class Login extends React.Component{
         </ScrollView>
       </KeyboardAvoidingView>
       </View>
+      </View>
+
     );
   }
 }
 
 const styles = StyleSheet.create({
+  header: {
+    backgroundColor: '#aa00ff',
+  },
+  container2: {
+    flex:1
+  },
   container: {
     flex: 1,
     padding: 8,
@@ -177,13 +196,13 @@ const styles = StyleSheet.create({
     margin: 8,
   },
   button1:{
-    backgroundColor: '#4169E1',
+    backgroundColor: '#e254ff',
     margin: 8,
     borderWidth: 5,
     borderRadius: 15 
   },
   button2:{
-    backgroundColor: '#32CD32',
+    backgroundColor: '#7200ca',
     margin: 8,
     borderWidth: 5,
     borderRadius: 15 

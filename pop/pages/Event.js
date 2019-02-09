@@ -23,6 +23,9 @@ class Event extends React.Component {
         <View style={styles.container}>
             <View>
                 <Appbar.Header>
+                <Appbar.BackAction
+          onPress={() => this.props.navigation.goBack()}
+        />
                     <Appbar.Content
                     title="Events"
                     />

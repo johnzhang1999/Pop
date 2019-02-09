@@ -8,7 +8,7 @@ import {
   Container,
 
 } from 'react-native';
-import { Button, TextInput, HelperText, withTheme, Paragraph } from 'react-native-paper';
+import { Button, TextInput, HelperText, Appbar, Paragraph } from 'react-native-paper';
 import { withNavigation } from 'react-navigation';
 
 class Post extends React.Component{
@@ -64,6 +64,19 @@ class Post extends React.Component{
     console.log(uid)
 
     return (
+<View style={styles.container2}>
+
+<View>
+                <Appbar.Header>
+                <Appbar.BackAction
+          onPress={() => this.props.navigation.goBack()}
+        />
+                    <Appbar.Content
+                    title="Events"
+                    />
+                </Appbar.Header>
+            </View>
+
       <View style={styles.container}>
       <KeyboardAvoidingView
         style={styles.wrapper}
@@ -108,11 +121,16 @@ class Post extends React.Component{
         </ScrollView>
       </KeyboardAvoidingView>
       </View>
+</View>
+
     );
   }
 }
 
 const styles = StyleSheet.create({
+container2: {
+    flex: 1
+    },
   container: {
     flex: 1,
     padding: 8,
