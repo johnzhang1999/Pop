@@ -102,6 +102,9 @@ export default class EventList extends React.Component {
         <Button disabled icon="timelapse" onPress={() => {}} style={styles.button}>
           {initTime} 
         </Button>
+        {/* <Button icon="timelapse" onPress={() => {}} style={styles.button}>
+          {initTime} 
+        </Button> */}
       </Card.Actions>
     </Card>
     )

@@ -16,6 +16,7 @@ class Event extends React.Component {
   render() {
     const { navigation } = this.props;
     const gid = navigation.getParam('gid','EMPTY')
+    const uid = navigation.getParam('uid','EMPTY')
     // console.log(gid)
     return (
         <View style={styles.container}>
@@ -38,9 +39,13 @@ class Event extends React.Component {
                     icon="add"
                     label="Add Event"
                     style={styles.fab}
-                    // onPress={() =>
-                    //     this.setState(state => ({ visible: !state.visible }))
-                    // }
+                    onPress={() => {
+                        this.props.navigation.navigate('Post', {
+                            uid: uid,
+                            gid: gid
+                        })
+                    }
+                    }
                     />
                 </View>
                 </SafeAreaView>

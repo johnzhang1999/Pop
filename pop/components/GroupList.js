@@ -96,6 +96,7 @@ class GroupList extends React.Component {
         // console.log(this.props.navigation)
         this.props.navigation.navigate('Event', {
           gid: gid,
+          uid: this.props.uid
         });
       }}>
       <Card.Title title={name} />

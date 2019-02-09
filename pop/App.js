@@ -6,13 +6,15 @@ import {
 import Home from './pages/Home';
 import Event from './pages/Event'
 import Login from './pages/Login'
+import Post from './pages/Post'
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 const RootStack = createStackNavigator(
   {
     Home: Home,
     Event: Event,
-    Login: Login
+    Login: Login,
+    Post: Post
   },
   {
     initialRouteName: 'Login',
