@@ -1,12 +1,13 @@
 import React from 'react';
-import { ActivityIndicator, ScrollView, RefreshControl,StyleSheet, Text, View, Chip } from 'react-native';
+import { ScrollView, RefreshControl,StyleSheet, Text, View } from 'react-native';
 import { 
   Provider as PaperProvider, 
   Card, 
   Title, 
   Paragraph, 
   Button, 
-  Avatar,
+  ActivityIndicator,
+  Chip
 } from 'react-native-paper';
 
 export default class GroupList extends React.Component {
@@ -16,7 +17,7 @@ export default class GroupList extends React.Component {
     error: false, 
     groupList: [],
     infoList: [],
-    uid: 'eea7aa99-2e43-4d41-89df-5b320c35da3e'
+    uid: 'eea7aa99-2e43-4d41-89df-5b320c35da3e',
   }
 
   loadUid = async () => {
@@ -41,7 +42,9 @@ export default class GroupList extends React.Component {
     }
   }
 
-  componentWillMount = async () => {
+  fetchData = async () => {
+    this.state.groupList = []
+    this.state.infoList = []
     try {
       const response = await fetch('http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/getGroupList/', {
         method: 'POST',
@@ -51,10 +54,7 @@ export default class GroupList extends React.Component {
         body: 'uid=' + this.state.uid
       })
       const gList = await response.json()
-      // console.log(gList)
       this.setState({groupList: gList.groupList})
-      // this.state.groupList = gList.groupList
-      // console.log(this.state.groupList)
 
       for (g in this.state.groupList) {
 
@@ -68,44 +68,51 @@ export default class GroupList extends React.Component {
           }
           )
           const info = await response.json()
+            
           this.setState({
             infoList: [...this.state.infoList, info]  
           })
-          // console.log(this.state.groupList)
-          // this.state.infoList.push(info)
-          // console.log(info)
-
 
         } catch (e) {
           this.setState({loading: false, error: true})
         }
       }
-      // console.log(this.state.infoList)
     } catch (e) {
       this.setState({loading: false, error: true})
     }
   }
 
-  renderPost = ({gid, memberList, name, owner, type, unconfirmed}) => {
-    return (
-      <Card>
-      <Card.Title title={name} />
-      <Card.Content>
-        <Title>{name}</Title>
-      </Card.Content>
-      <Card.Actions>
+  componentWillMount = async () => {
+    this.fetchData()
+  }
 
+  renderPost = ({gid, memberList, name, owner, type, unconfirmed}) => {
+    typeBtn = type === "private" ? "lock" : "accessibility"
+    pplCount = memberList.length
+    return (
+      <Card style={styles.card}>
+      <Card.Title title={name} />
+      <Card.Actions>
+        <Button disabled icon={typeBtn} onPress={() => {}} style={styles.button}>
+              {type}
+            </Button>
+        <Button disabled icon="announcement" onPress={() => {}} style={styles.button}>
+          {unconfirmed} 
+        </Button>
+        <Button disabled icon="people" onPress={() => {}} style={styles.button}>
+          {pplCount} 
+        </Button>
       </Card.Actions>
     </Card>
     )
   } 
 
-  // _onRefresh = () => {
-  //   this.setState({loading: true});
-  //   componentWillMount().then(() => {
-  //     this.setState({loading: false});
-  //   });
-  // }
+  _onRefresh = () => {
+    this.setState({loading: true});
+    this.fetchData().then(() => {
+      this.setState({loading: false});
+    });
+  }
 
   render() {
 
@@ -130,38 +137,18 @@ export default class GroupList extends React.Component {
       )
     }
 
-    console.log(this.state)  
     return (
 
-      <ScrollView
+            <ScrollView style={styles.container}
       refreshControl={
         <RefreshControl
           refreshing={this.state.loading} 
-          // onRefresh={this._onRefresh}
+          onRefresh={this._onRefresh}
         />
       }>
         {infoList.map(this.renderPost)} 
-        {/* {this.renderPost({
-          gid: "someting",
-          memberList: [],
-          name: "hi",
-          owner: "someone",
-          type: "private",
-          unconfirmed: 6
-        })} */}
-        <Text>Hello</Text>
-        {/* <Card>
-      <Card.Title title="name" /> 
-      <Card.Content>
-        <Title>"name"</Title>
-      </Card.Content>
-      <Card.Actions>
-      <Button icon="add-a-photo" mode="contained" >
-    Press me
-  </Button>
-      </Card.Actions>
-    </Card> */}
       </ScrollView>
+
 
     );
 
@@ -171,13 +158,17 @@ export default class GroupList extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   center: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
+  card: {
+    margin: 4,
+    padding: 4,
+  },
+  button: {
+    margin: 0
+  }
 });
