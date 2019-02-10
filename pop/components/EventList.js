@@ -67,7 +67,7 @@ export default class EventList extends React.Component {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: 'eid=' + this.state.eventList[g]
+            body: 'eid=' + this.state.eventList[g] + '&uid=' + this.props.uid
           }
           )
           const info = await response.json()
@@ -109,34 +109,48 @@ export default class EventList extends React.Component {
     this.fetchData()
   }
 
-  renderPost = ({loc, desc, eid, initTime, onwer, name}) => {
-    return (
-      <Card style={styles.card}>
-      <Card.Title title={name} />
-      <Card.Content>
-      <Paragraph>{desc}</Paragraph>
-    </Card.Content>
-      <Card.Actions>
-        <Button disabled icon="place" onPress={() => {}} style={styles.button}>
-              {loc}
-            </Button>
-        <Button disabled icon="timelapse" onPress={() => {}} style={styles.button}>
-          {initTime} 
-        </Button>
-        <Button icon="delete" onPress={() => {
-            this.deletePost(this.props.uid, eid)
-        }} style={styles.button}>
-          Del
-        </Button>
-        <HelperText
-            type="error"
-            visible={this.state.invalid}
-          >
-          You are not the owner of this event!
-          </HelperText>
-      </Card.Actions>
-    </Card>
-    )
+  renderPost = ({loc, desc, eid, initTime, owner, name, isOwner}) => {
+    //   console.log(isOwner)
+    if (isOwner) {
+        return (
+            <Card style={styles.card}>
+            <Card.Title title={name} />
+            <Card.Content>
+            <Paragraph>{desc}</Paragraph>
+          </Card.Content>
+            <Card.Actions>
+              <Button disabled icon="place" onPress={() => {}} style={styles.button}>
+                    {loc}
+                  </Button>
+              <Button disabled icon="timelapse" onPress={() => {}} style={styles.button}>
+                {initTime} 
+              </Button>
+              <Button icon="delete" onPress={() => {
+                  this.deletePost(this.props.uid, eid)
+              }} style={styles.button}>
+                Del
+              </Button>
+            </Card.Actions>
+          </Card>
+          )
+    } else {
+        return (
+            <Card style={styles.card}>
+            <Card.Title title={name} />
+            <Card.Content>
+            <Paragraph>{desc}</Paragraph>
+          </Card.Content>
+            <Card.Actions>
+              <Button disabled icon="place" onPress={() => {}} style={styles.button}>
+                    {loc}
+                  </Button>
+              <Button disabled icon="timelapse" onPress={() => {}} style={styles.button}>
+                {initTime} 
+              </Button>
+            </Card.Actions>
+          </Card>
+          )
+    }
   } 
 
   _onRefresh = () => {

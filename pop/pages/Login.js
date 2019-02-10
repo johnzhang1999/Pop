@@ -8,7 +8,7 @@ import {
   Container,
 
 } from 'react-native';
-import { Button, TextInput, HelperText, Appbar, Paragraph, Avatar } from 'react-native-paper';
+import { Button, TextInput, HelperText, Appbar, Paragraph,  } from 'react-native-paper';
 import { withNavigation } from 'react-navigation';
 import { Permissions, Notifications } from 'expo';
 
@@ -180,7 +180,7 @@ class Login extends React.Component{
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: '#aa00ff',
+    backgroundColor: '#473be7',
   },
   container2: {
     flex:1
@@ -196,13 +196,13 @@ const styles = StyleSheet.create({
     margin: 8,
   },
   button1:{
-    backgroundColor: '#e254ff',
+    backgroundColor: '#473be7',
     margin: 8,
     borderWidth: 5,
     borderRadius: 15 
   },
   button2:{
-    backgroundColor: '#7200ca',
+    backgroundColor: '#473be7',
     margin: 8,
     borderWidth: 5,
     borderRadius: 15 

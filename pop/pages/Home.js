@@ -4,11 +4,17 @@ import {
   Provider as PaperProvider, Appbar, FAB
 } from 'react-native-paper';
 import { withNavigation } from 'react-navigation';
+import DialogCustom from '../components/DialogCustom';
 
 import GroupList from '../components/GroupList';
 
 class Home extends React.Component {
     static navigationOptions = { header: null }
+
+    state = {
+        visible: false
+    }
+
   _onSearch = () => {
       this.props.navigation.push('SearchGroup',{
           uid: this.props.navigation.getParam('uid','EMPTY')
@@ -16,6 +22,52 @@ class Home extends React.Component {
   }
 
   _onMore = () => console.log('Shown more');
+
+  _openDialog = () => this.setState({ visible: true });
+
+  _closeDialog = () => this.setState({ visible: false });
+
+  searchGroup = async (query) => {
+    const uid = this.props.navigation.getParam('uid','EMPTY')
+    this.state.result = []
+    try {
+      const response = await fetch('http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/search/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'q=' + query
+      })
+      const gList = await response.json()
+      if (gList.list.length > 0) {
+        joinGroup(uid, gList.list[0])
+      }
+
+    } catch (e) {
+      this.setState({loading: false, error: true})
+    }
+  }
+
+  joinGroup = async (uid,gid) => {
+    // const uid = this.props.navigation.getParam('uid','EMPTY')
+    this.state.result = []
+    try {
+      const response = await fetch('http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/joinOpenGroup/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'uid=' + uid + '&gid=' + gid
+      })
+      const status = await response.json()
+      console.log(status)
+
+    } catch (e) {
+      this.setState({loading: false, error: true})
+    }
+  }
+
+
 
   render() {
     const { navigation } = this.props;
@@ -42,12 +94,11 @@ class Home extends React.Component {
                     icon="add"
                     label="Add Group"
                     style={styles.fab}
-                    // onPress={() =>
-                    //     this.setState(state => ({ visible: !state.visible }))
-                    // }
+                    onPress={this._openDialog}
                     />
                 </View>
                 </SafeAreaView>
+                {/* <DialogCustom visible={this.states.visible} close={this._closeDialog} /> */}
             </View>
         </View> 
         </PaperProvider>
