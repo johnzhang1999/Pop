@@ -48,7 +48,7 @@ class GroupList extends React.Component {
     this.state.groupList = []
     this.state.infoList = []
     try {
-      const response = await fetch('http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/getGroupList/', {
+      const response = await fetch('http://mackays-mbp.wv.cc.cmu.edu:8000/api/getGroupList/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -61,7 +61,7 @@ class GroupList extends React.Component {
       for (g in this.state.groupList) {
 
         try {
-          const response = await fetch('http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/getGroupInfo/', {
+          const response = await fetch('http://mackays-mbp.wv.cc.cmu.edu:8000/api/getGroupInfo/', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded'

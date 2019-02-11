@@ -26,7 +26,7 @@ class Post extends React.Component{
 
   addEvent = async (gid,uid,name,desc,loc) => {
     try {
-      const response = await fetch('http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/addEvent/', {
+      const response = await fetch('http://mackays-mbp.wv.cc.cmu.edu:8000/api/addEvent/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'

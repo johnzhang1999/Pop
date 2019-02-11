@@ -12,7 +12,7 @@ import { Button, TextInput, HelperText, Appbar, Paragraph,  } from 'react-native
 import { withNavigation } from 'react-navigation';
 import { Permissions, Notifications } from 'expo';
 
-const PUSH_ENDPOINT = 'http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/updateToken/';
+const PUSH_ENDPOINT = 'http://mackays-mbp.wv.cc.cmu.edu:8000/api/updateToken/';
 
 async function registerForPushNotificationsAsync(uid) {
   const { status: existingStatus } = await Permissions.getAsync(
@@ -64,7 +64,7 @@ class Login extends React.Component{
   register = async () => {
 
     try {
-      const response = await fetch('http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/register/', {
+      const response = await fetch('http://mackays-mbp.wv.cc.cmu.edu:8000/api/register/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -86,7 +86,7 @@ class Login extends React.Component{
   login = async () => {
 
     try {
-      const response = await fetch('http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/login/', {
+      const response = await fetch('http://mackays-mbp.wv.cc.cmu.edu:8000/api/login/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'

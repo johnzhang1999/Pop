@@ -23,7 +23,7 @@ export default class EventList extends React.Component {
     this.state.result = []
     console.log(this.props.gid)
     try {
-      const response = await fetch('http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/getEventList/', {
+      const response = await fetch('http://mackays-mbp.wv.cc.cmu.edu:8000/api/getEventList/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -43,7 +43,7 @@ export default class EventList extends React.Component {
       console.log(uid)
       console.log(eid)
     try {
-      const response = await fetch('http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/deleteEvent/', {
+      const response = await fetch('http://mackays-mbp.wv.cc.cmu.edu:8000/api/deleteEvent/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'

@@ -31,7 +31,7 @@ class Home extends React.Component {
     const uid = this.props.navigation.getParam('uid','EMPTY')
     this.state.result = []
     try {
-      const response = await fetch('http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/search/', {
+      const response = await fetch('http://mackays-mbp.wv.cc.cmu.edu:8000/api/search/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -52,7 +52,7 @@ class Home extends React.Component {
     // const uid = this.props.navigation.getParam('uid','EMPTY')
     this.state.result = []
     try {
-      const response = await fetch('http://hiroshi-ubuntu.wv.cc.cmu.edu:8000/api/joinOpenGroup/', {
+      const response = await fetch('http://mackays-mbp.wv.cc.cmu.edu:8000/api/joinOpenGroup/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
